@@ -2,6 +2,7 @@ import React from "react";
 import { Text, ScrollView, View, Image, StyleSheet } from "react-native";
 import LifeStatus from "../../components/common/LifeStatus";
 import DefaultButton from "../../components/common/DefaultButton";
+import { useNavigation } from "@react-navigation/native";
 
 
 export default function Start() {
