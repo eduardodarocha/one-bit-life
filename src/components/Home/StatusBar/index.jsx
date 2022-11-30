@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-  
+
   statusBarContainer: {
     flexDirection: "row",
     alignItems: "center",
