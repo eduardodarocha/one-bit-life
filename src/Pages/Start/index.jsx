@@ -6,9 +6,10 @@ import { useNavigation } from "@react-navigation/native";
 
 
 export default function Start() {
+  const navigation = useNavigation();
 
   const handleNavAppExplanation = () => {
-    console.log("Navegar para a página de explicação do app");
+    navigation.navigate("AppExplanation");
   };
 
 

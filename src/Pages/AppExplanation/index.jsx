@@ -9,9 +9,8 @@ import DefaultButton from "../../components/common/DefaultButton";
 export default function AppExplanation() {
   const navigation = useNavigation();
 
-  function handleSetShowHome() {
-    // navigation.navigate("Home");
-    console.log("handleSetShowHome clicked");
+  function handleNavHome() {
+    navigation.navigate("Home");
   }
 
   return (
@@ -31,7 +30,7 @@ export default function AppExplanation() {
           </Text>
           <DefaultButton
             buttonText={"Continuar"}
-            handlePress={handleSetShowHome}
+            handlePress={handleNavHome}
             width={250}
             height={50}
           />
