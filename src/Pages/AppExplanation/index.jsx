@@ -2,9 +2,9 @@ import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import ExplanationCard from "../../components/Explanation/ExplanationCard";
-import DefaultButton from "../../components/Common/DefaultButton";
-import ChangeNavigationService from "../../service/ChangeNavigationService";
+import ExplanationCard from "../../components/explanation/ExplanationCard";
+import DefaultButton from "../../components/common/DefaultButton";
+// import ChangeNavigationService from "../../service/ChangeNavigationService";
 
 export default function AppExplanation() {
   const navigation = useNavigation();
