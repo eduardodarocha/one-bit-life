@@ -26,17 +26,17 @@ export default function Home() {
           <LifeStatus />
           <StatusBar />
 
-          {/* {mindHabit ? (
+          {mindHabit ? (
             <EditHabit
               habit={mindHabit?.habitName}
               frequency={`${mindHabit?.habitTime} - ${mindHabit?.habitFrequency}`}
               habitArea={mindHabit?.habitArea}
               checkColor="#90B7F3"
             />
-          ) : ( */}
+          ) : (
             <CreateHabit habitArea="Mente" borderColor="#90B7F3" />
-          {/* )} */}
-{/* 
+          )}
+
           {moneyHabit ? (
             <EditHabit
               habit={moneyHabit?.habitName}
@@ -68,7 +68,7 @@ export default function Home() {
             />
           ) : (
             <CreateHabit habitArea="Humor" borderColor="#FE7F23" />
-          )} */}
+          )}
         </View>
 
         <Text
