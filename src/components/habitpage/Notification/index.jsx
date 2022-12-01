@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { Switch } from "react-native-gesture-handler";
+import { View, Text, StyleSheet, Switch } from "react-native";
+// import { Switch } from "react-native-gesture-handler";
 
 export default function Notification({
   notificationToggle,
