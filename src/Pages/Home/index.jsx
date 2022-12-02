@@ -5,24 +5,37 @@ import { useNavigation } from "@react-navigation/native";
 import LifeStatus from "../../components/common/LifeStatus";
 import StatusBar from "../../components/Home/StatusBar";
 import CreateHabit from "../../components/Home/CreateHabit";
-// import EditHabit from "../../components/Home/EditHabit";
+import EditHabit from "../../components/Home/EditHabit";
+import ChangeNavigationService from "../../services/ChangeNavigationService";
 
-export default function Home() {
+export default function ({ route }) {
   const navigation = useNavigation();
   const [mindHabit, setHabit] = useState();
   const [moneyHabit, setMoneyHabit] = useState();
   const [bodyHabit, setBodyHabit] = useState();
   const [funHabit, setFunHabit] = useState();
-
+  const [robotDaysLife, setRobotDaysLife] = useState();
+  const today = new Date();
+  
   function handleNavExplanation() {
     navigation.navigate("AppExplanation");
-  }
-
+  };
+  console.log("robotDaysLife1", robotDaysLife);
+  useEffect(() => {
+    ChangeNavigationService.checkShowHome(1)
+    .then((showHome) => {
+      const formDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+        const checkDays =
+          new Date(formDate) - new Date(showHome.appStartData) + 1;
+        setRobotDaysLife(checkDays.toString().padStart(2, "0"));
+      })
+      .catch((err) => console.log(err));
+    }, [route.params]);
   return (
     <View style={styles.container}>
       <ScrollView>
         <View style={{ alignItems: "center" }}>
-          <Text style={styles.dailyChecks}>❤️ 20 dias - ✔️ 80 checks</Text>
+          <Text style={styles.dailyChecks}>❤️ {robotDaysLife} {robotDaysLife === "01" ? "dia" : "dias"} - ✔️ 80 checks</Text>
           <LifeStatus />
           <StatusBar />
 
