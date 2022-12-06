@@ -115,8 +115,16 @@ export default function HabitPage({ route }) {
         Alert.alert("Sucesso na atualização do hábito");
         if (!notificationToggle) {
           //Delete notification
+          NotificationService.deleteNotification(habitInput);
         } else {
           //Create notification
+          NotificationService.deleteNotification(habitInput);
+          NotificationService.createNotification(
+            habitInput,
+            frequencyInput,
+            dayNotification,
+            timeNotification
+          );
         }
         navigation.navigate("Home", {
           updatedHabit: `Updated in ${habit?.habitArea}`,
