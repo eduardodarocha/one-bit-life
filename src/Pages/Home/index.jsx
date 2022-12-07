@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import HabitsService from "../../services/HabitsService";
 
 import { useNavigation } from "@react-navigation/native";
@@ -20,10 +20,10 @@ export default function ({ route }) {
   const [funHabit, setFunHabit] = useState();
   const [robotDaysLife, setRobotDaysLife] = useState();
   const today = new Date();
-  
+
   function handleNavExplanation() {
     navigation.navigate("AppExplanation");
-  };
+  }
   // console.log("robotDaysLife1", robotDaysLife);
 
   const excludeArea = route.params?.excludeArea;
@@ -55,29 +55,39 @@ export default function ({ route }) {
       if (excludeArea == "Humor") {
         setFunHabit(null);
       }
-    };
+    }
 
     ChangeNavigationService.checkShowHome(1)
-    .then((showHome) => {
-      const formDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+      .then((showHome) => {
+        const month = `${today.getMonth() + 1}`.padStart(2, "0");
+        const day = `${today.getDate()}`.padStart(2, "0");
+        const formDate = `${today.getFullYear()}-${month}-${day}`;
         const checkDays =
           new Date(formDate) - new Date(showHome.appStartData) + 1;
-        setRobotDaysLife(checkDays.toString().padStart(2, "0"));
+          if (checkDays === 0){
+            setRobotDaysLife (checkDays.toString().padStart(2, "0"));
+          } else {
+            setRobotDaysLife (parseInt(checkDays / (1000 * 3600 * 24)))
+          }
       })
       .catch((err) => console.log(err));
-    }, [route.params]);
+  }, [route.params]);
 
-    useEffect(() => {
-      CheckService.removeCheck(mindHabit, moneyHabit, bodyHabit, funHabit);
-    }, [mindHabit, moneyHabit, bodyHabit, funHabit]);
-    
+  useEffect(() => {
+    CheckService.removeCheck(mindHabit, moneyHabit, bodyHabit, funHabit);
+    CheckService.checkStatus(mindHabit, moneyHabit, bodyHabit, funHabit);
+  }, [mindHabit, moneyHabit, bodyHabit, funHabit]);
+
   return (
     <View style={styles.container}>
       <ScrollView>
         <View style={{ alignItems: "center" }}>
-          <Text style={styles.dailyChecks}>❤️ {robotDaysLife} {robotDaysLife === "01" ? "dia" : "dias"} - ✔️ 80 checks</Text>
+          <Text style={styles.dailyChecks}>
+            ❤️ {robotDaysLife} {robotDaysLife === "01" ? "dia" : "dias"} - ✔️ 80
+            checks
+          </Text>
           <LifeStatus
-	          mindHabit={mindHabit}
+            mindHabit={mindHabit}
             moneyHabit={moneyHabit}
             bodyHabit={bodyHabit}
             funHabit={funHabit}
@@ -106,7 +116,7 @@ export default function ({ route }) {
           )}
           {funHabit ? (
             <EditHabit habit={funHabit} checkColor="#FE7F23" />
-            ) : (
+          ) : (
             <CreateHabit habitArea="Humor" borderColor="#FE7F23" />
           )}
         </View>
