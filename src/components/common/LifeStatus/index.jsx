@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
+import AnimationService from "../../../services/AnimationService";
 
 import LottieView from "lottie-react-native";
 import Lottie from "lottie-react-native";
 
-export default function LifeStatus() {
+export default function LifeStatus({
+  mindHabit,
+  moneyHabit,
+  bodyHabit,
+  funHabit,
+}) {
   /* Status:
     100 - Máximo
     50 - Médio
@@ -13,21 +19,42 @@ export default function LifeStatus() {
     No robô, nós temos primeiro Felicidade e depois saúde
     */
 
+  const [mind, setMind] = useState();
+  const [money, setMoney] = useState();
+  const [robot, setRobot] = useState();
+
+  useEffect(() => {
+    AnimationService.animationStatus(
+      mindHabit?.progressBar,
+      moneyHabit?.progressBar,
+      bodyHabit?.progressBar,
+      funHabit?.progressBar,
+      setMind,
+      setMoney,
+      setRobot
+    );
+  }, [mindHabit, moneyHabit, bodyHabit, funHabit]);
+
   return (
     <View style={styles.container}>
-      <LottieView
+      <Lottie source={mind} autoPlay loop style={styles.educacaoAnimacao} />
+      {/* <LottieView source={mind} autoPlay loop style={styles.educacaoAnimacao} /> */}
+      <Lottie source={money} autoPlay loop style={styles.financasAnimacao} />
+      <Lottie source={robot} autoPlay loop style={styles.roboAnimacao} />
+
+      {/* <LottieView
         source={require("../../../assets/education/education-100.json")}
         autoPlay={true}
         Loop={true}
         style={styles.educacaoAnimacao}
-        />
-        {/* <Lottie 
+      /> */}
+      {/* <Lottie 
           source={require("../../../assets/education/education-100.json")}
           autoPlay
           loop
           style={styles.educacaoAnimacao}
         /> */}
-      <LottieView
+      {/* <LottieView
         autoPlay={true}
         Loop={true}
         source={require("../../../assets/money/money-100.json")}
@@ -38,7 +65,7 @@ export default function LifeStatus() {
         Loop={true}
         source={require("../../../assets/robot/robot-100-100.json")}
         style={styles.roboAnimacao}
-      />
+      /> */}
     </View>
   );
 }

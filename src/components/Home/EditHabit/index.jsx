@@ -1,20 +1,49 @@
-import React from "react";
-import { Text, TouchableOpacity, StyleSheet, View, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Text, TouchableOpacity, StyleSheet, View, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import CheckService from "../../../services/CheckService";
 
 export default function EditHabit({ habit, checkColor }) {
 	const navigation = useNavigation();
+  const [habitCheck, setHabitCheck] = useState();
+  const [checkImage, setCheckImage] = useState(
+    require("../../../assets/icons/Mind.png")
+  );
+  
+  const checkData = new Date();
+  const formatDate = `${checkData.getFullYear()}-${checkData.getMonth()}-${checkData.getDate()}`;
 
   function handleEdit() {
     navigation.navigate("HabitPage", {
       create: false,
       habit,
     });
-  }
+  };
 
   function handleCheck() {
-    console.log(`Clicando no check do ${habit?.habitArea}`);
+    if (habitCheck === 0) {
+      CheckService.checkHabit({
+        lastCheck: formatDate,
+        habitIsChecked: 1,
+        habitChecks: habit?.habitChecks + 1,
+        habitArea: habit?.habitArea,
+      });
+      setHabitCheck(1);
+    }
   };
+
+  useEffect(() => {
+    setHabitCheck(habit?.habitIsChecked);
+    if (habit?.habitArea === "Financeiro") {
+      setCheckImage(require("../../../assets/icons/Money.png"));
+    }
+    if (habit?.habitArea === "Corpo") {
+      setCheckImage(require("../../../assets/icons/Body.png"));
+    }
+    if (habit?.habitArea === "Humor") {
+      setCheckImage(require("../../../assets/icons/Fun.png"));
+    }
+  }, []);
 
   const textNotification =
     habit?.habitNotificationTime == null
@@ -32,10 +61,17 @@ export default function EditHabit({ habit, checkColor }) {
         <Text style={styles.habitTitle}>{habit?.habitName}</Text>
         <Text style={styles.habitFrequency}>{textNotification}</Text>
       </View>
+
+      {habitCheck === 0 ? (
       <TouchableOpacity
         style={[styles.check, { borderColor: checkColor }]}
         onPress={handleCheck}
       />
+      ) : (
+      <TouchableOpacity onPress={handleCheck}>
+        <Image source={checkImage} style={styles.checked} />
+      </TouchableOpacity>
+      )}
     </TouchableOpacity>
   );
 }
@@ -60,9 +96,13 @@ const styles = StyleSheet.create({
     color: "white",
   },
   check: {
-    width: 20,
-    height: 20,
+    width: 25,
+    height: 25,
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 12,
+  },
+  checked: {
+    width: 25,
+    height: 25,
   },
 });

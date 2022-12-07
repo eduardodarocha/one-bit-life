@@ -9,6 +9,7 @@ import StatusBar from "../../components/Home/StatusBar";
 import CreateHabit from "../../components/Home/CreateHabit";
 import EditHabit from "../../components/Home/EditHabit";
 import ChangeNavigationService from "../../services/ChangeNavigationService";
+import CheckService from "../../services/CheckService";
 
 export default function ({ route }) {
   const navigation = useNavigation();
@@ -65,13 +66,28 @@ export default function ({ route }) {
       })
       .catch((err) => console.log(err));
     }, [route.params]);
+
+    useEffect(() => {
+      CheckService.removeCheck(mindHabit, moneyHabit, bodyHabit, funHabit);
+    }, [mindHabit, moneyHabit, bodyHabit, funHabit]);
+    
   return (
     <View style={styles.container}>
       <ScrollView>
         <View style={{ alignItems: "center" }}>
           <Text style={styles.dailyChecks}>❤️ {robotDaysLife} {robotDaysLife === "01" ? "dia" : "dias"} - ✔️ 80 checks</Text>
-          <LifeStatus />
-          <StatusBar />
+          <LifeStatus
+	          mindHabit={mindHabit}
+            moneyHabit={moneyHabit}
+            bodyHabit={bodyHabit}
+            funHabit={funHabit}
+          />
+          <StatusBar
+            mindHabit={mindHabit?.progressBar}
+            moneyHabit={moneyHabit?.progressBar}
+            bodyHabit={bodyHabit?.progressBar}
+            funHabit={funHabit?.progressBar}
+          />
 
           {mindHabit ? (
             <EditHabit habit={mindHabit} checkColor="#90B7F3" />
