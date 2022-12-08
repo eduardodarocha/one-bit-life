@@ -6,7 +6,7 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  Alert
+  Alert,
 } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
@@ -40,7 +40,7 @@ export default function HabitPage({ route }) {
 
   const habitCreated = new Date();
   const formatDate = `${habitCreated.getFullYear()}-${
-    habitCreated.getMonth() + 1
+    habitCreated.getMonth()
   }-${habitCreated.getDate()}`;
 
   // Notification Creation
@@ -71,10 +71,10 @@ export default function HabitPage({ route }) {
     } else {
       if (notificationToggle) {
         NotificationService.createNotification(
-        habitInput,
-        frequencyInput,
-        dayNotification,
-        timeNotification
+          habitInput,
+          frequencyInput,
+          dayNotification,
+          timeNotification
         );
       }
 
@@ -89,6 +89,7 @@ export default function HabitPage({ route }) {
         daysWithoutChecks: 0,
         habitIsChecked: 0,
         progressBar: 1,
+        habitChecks: 0,
       }).then(() => {
         Alert.alert("Sucesso na criação do hábito!");
 
@@ -140,7 +141,7 @@ export default function HabitPage({ route }) {
       setTimeNotification(habit?.habitNotificationTime);
     }
   }, []);
-  
+
   useEffect(() => {
     if (notificationToggle === false) {
       setTimeNotification(null);
@@ -150,16 +151,20 @@ export default function HabitPage({ route }) {
 
   // Notification Get Token
   useEffect(() => {
-    notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
-      setNotification(notification);
-    });
-  
-    responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-      console.log(response);
-    });
-  
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(notification);
+      });
+
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response);
+      });
+
     return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);

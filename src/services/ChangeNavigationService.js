@@ -1,6 +1,8 @@
 import db from "../Database";
 
 db.transaction((tx) => {
+  //Cria a tabela "change_navigation" caso ela não exista
+  //---------------------------------------------------------------------------
   tx.executeSql(
     "CREATE TABLE IF NOT EXISTS change_navigation (id INTEGER PRIMARY KEY AUTOINCREMENT, showHome TEXT, appStartData TEXT);",
     [],
@@ -8,6 +10,17 @@ db.transaction((tx) => {
       console.log(error);
     }
   );
+  //---------------------------------------------------------------------------
+
+  //Para apagar a tabela "change_navigation", comente o código acima 
+  // "tx.executeSql("...  até ->  ... ");"  e descomente as linhas abaixo.
+  
+  //-------------------------------------------------------------
+  // tx.executeSql("DROP TABLE change_navigation;", [], () => {
+  //   console.log("Tabela deletada");
+  // });
+  //-------------------------------------------------------------
+
 });
 
 const setShowHome = (obj) => {
